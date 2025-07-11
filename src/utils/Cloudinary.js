@@ -33,7 +33,8 @@ import fs from "fs"
             resource_type:"auto"
         })
         //file has been upload successfully
-        console.log("file is uploaded on cloud",response.url);
+        //console.log("file is uploaded on cloud",response.url);
+        fs.unlinkSync(localFilePath);
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath)//remove the locally saved file as the upload got failed

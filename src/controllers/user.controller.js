@@ -3,6 +3,8 @@ import {apiError}from "../utils/apiError.js"
 import {User}from "../models/user.model.js"
 import { uploadOnCloud } from "../utils/Cloudinary.js";
 import { apiResponse } from "../utils/apiResponse.js";
+import jwt from "jsonwebtoken"
+import mongoose from "mongoose";
 const registerUser = asyncHandler ( async (req,res)=>{
     //  res.status(200).json({
     //     message:"OK"
@@ -17,20 +19,21 @@ const registerUser = asyncHandler ( async (req,res)=>{
     //remove password and refresh token and check for user creation
     //return res
     const {fullName,email,username,password}=req.body
-    console.log("email: ",email);
+    // console.log("email: ",email);
     if(
         [fullName,email,username,password].some((i)=> i ?.trim()==="")
     ){
          throw new apiError(400,"All fields are required")
     }
 
-    const existeduser=User.findOne({
+    const existeduser=await User.findOne({
         $or:[{username},{email}]
     })
     if(existeduser)
     {
         throw new apiError(409,"User with email or username already exists")
     }
+    //console.log(req.files);
     const avatarLocalpath=req.files?.avatar[0]?.path;
     const coverImageLocalpath=req.files?.coverImage[0]?.path;
     if(!avatarLocalpath){
