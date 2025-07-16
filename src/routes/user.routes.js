@@ -12,7 +12,6 @@ import { changeCurrentPassword,
            updateUserCoverImage } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { uploadOnCloud } from "../utils/Cloudinary.js";
 
 const router=Router()
 
